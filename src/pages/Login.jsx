@@ -27,7 +27,7 @@ export default function Login() {
 
     try {
       const res = await axios.post(
-        `${apiBaseUrl}/api/login`, // ← change to `${apiBaseUrl}/login` if your backend mounts routes at root
+        `${apiBaseUrl}/login`, // ← change to `${apiBaseUrl}/login` if your backend mounts routes at root
         { email, password },
         {
           headers: {
