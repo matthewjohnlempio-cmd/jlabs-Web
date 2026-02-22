@@ -46,10 +46,11 @@ It provides a login screen and a home dashboard displaying IP geolocation inform
 3. **Set up environment variables**
    
    The project uses a .env file to point to the backend API.
-   This file is not included in the repository.Folder structure (root level):
    
-   **Folder structure (root level):**
+   How to create .env:
+    - In the root folder (jlabs-web/), create a new file named exactly .env
    ```text
+   **Folder structure (root level):**
    jlabs-web/                  ← root folder
     ├── src/
     │   ├── components/
@@ -60,8 +61,6 @@ It provides a login screen and a home dashboard displaying IP geolocation inform
     ├── package.json
     └── vite.config.js
    ```
-   How to create .env:
-    - In the root folder (jlabs-web/), create a new file named exactly .env
     - Open .env and add:
       
    ```text
