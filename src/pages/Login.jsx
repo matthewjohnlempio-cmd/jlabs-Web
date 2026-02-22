@@ -9,7 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+  const apiBaseUrl = import.meta.env.VITE_API_URL || "";
 
   // Quick debug (you can remove this line later)
   console.log("API Base URL being used:", apiBaseUrl || "(not set — check Vercel env vars)");
