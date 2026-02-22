@@ -4,6 +4,9 @@ This is the React (Vite) frontend for the JLabs Developer Assessment challenge.
 It provides a login screen and a home dashboard displaying IP geolocation information using the ipinfo.io API.
 
 **Live deployment**: https://jlabs-web-six.vercel.app/
+   Test Login Credentials
+      **Email**: admin@gmail.com  
+      **Password**: 5211535
 
 **Backend repo**: https://github.com/matthewjohnlempio-cmd/jlabs-api  
 **Backend live**: https://jlabs-api.vercel.app/
