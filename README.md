@@ -1,16 +1,112 @@
-# React + Vite
+# GeoIP Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React (Vite) frontend for the JLabs Developer Assessment challenge.  
+It provides a login screen and a home dashboard displaying IP geolocation information using the ipinfo.io API.
 
-Currently, two official plugins are available:
+**Live deployment**: https://jlabs-web-six.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+   Test Login Credentials
+   
+      **Email**: admin@gmail.com 
+      
+      **Password**: 5211535
 
-## React Compiler
+**Backend repo**: https://github.com/matthewjohnlempio-cmd/jlabs-api  
+**Backend live**: https://jlabs-api.vercel.app/
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Features
+- Login page with email/password authentication (connects to backend `/login` endpoint)
+- Home dashboard showing user's current IP and geolocation
+- Manual IP search with validation and error handling
+- Search history list with click-to-reload and multi-delete
+- Interactive map with marker (using Leaflet/React-Leaflet)
+- Responsive design
+- Deployed on Vercel
 
-## Expanding the ESLint configuration
+## Tech Stack
+- React + Vite
+- Axios (API requests)
+- React Router (navigation)
+- Leaflet + react-leaflet (map display)
+- Tailwind CSS (styling)
+- Vercel (deployment)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Prerequisites
+- Node.js v18+ and npm
+
+## Local Setup Instructions
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/matthewjohnlempio-cmd/jlabs-web.git
+   cd jlabs-web
+
+2. **Install dependencies**
+   
+   This command reads the `package.json` file and automatically installs all required packages (express, mongoose, bcryptjs, etc.).
+   
+   ```bash
+   npm install
+   ```
+   
+3. **Set up environment variables**
+   
+   The project uses a .env file to point to the backend API.
+   
+   How to create .env:
+    - In the root folder (jlabs-web/), create a new file named exactly .env
+   ```text
+   **Folder structure (root level):**
+   jlabs-web/                  ← root folder
+    ├── src/
+    │   ├── components/
+    │   ├── pages/
+    │   └── ...
+    ├── public/
+    ├── .env                    ← CREATE THIS FILE HERE
+    ├── package.json
+    └── vite.config.js
+   ```
+    - Open .env and add:
+      
+   ```text
+   # Backend API base URL
+   # For local development (when backend runs on localhost)
+   VITE_API_URL=http://localhost:8000
+  
+   # For production (your deployed backend)
+   # VITE_API_URL=https://(name).vercel.app
+   ```
+    Tip: Use http://localhost:8000 when testing locally with the backend running.
+    Change to the live backend URL when deploying.
+
+4. Start the development server
+   ```bash
+   npm run dev
+   ```
+     → Opens automatically at http://localhost:5173 (Vite default port)
+
+5. Test the app
+    - Go to http://localhost:5173/login
+    - Log in with:
+      -  Email: (you have to seed the user in the backend read the README.md file link: https://github.com/matthewjohnlempio-cmd/jlabs-api)
+      -  Password: (you have to seed the user in the backend read the README.md file link: https://github.com/matthewjohnlempio-cmd/jlabs-api)
+    
+    - After login → redirects to home dashboard with your IP geolocation
+    - Test IP search, history, map, delete, etc.
+
+##Troubleshooting
+  - Network Error on login: Ensure backend is running on http://localhost:8000 and CORS allows http://localhost:5173
+  - Map not loading: Check Leaflet/react-leaflet imports and that coords from ipinfo.io are valid
+  - Invalid IP error: ipinfo.io validates format — try valid IPs like 8.8.8.8
+  - No token after login: Check localStorage (DevTools → Application → Local Storage)
+
+## License
+ISC
+
+Submitted for JLabs Developer Assessment – February 2026 Matthew John Lempio
+
+
+   
+
+   
