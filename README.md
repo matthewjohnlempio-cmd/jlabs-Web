@@ -75,7 +75,7 @@ It provides a login screen and a home dashboard displaying IP geolocation inform
    VITE_API_URL=http://localhost:8000
   
    # For production (your deployed backend)
-   # VITE_API_URL=https://(name).vercel.app
+   # VITE_API_URL=https://(name).vercel.app (when backend runs on livehost "VERCEL")
    ```
     Tip: Use http://localhost:8000 when testing locally with the backend running.
     Change to the live backend URL when deploying.
