@@ -4,24 +4,32 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import GeoMap from "../components/Map/GeoMap";
 
-export default function Home() {
+export default function Home({ setIsLoggedIn }) {
+  const [name, setName] = useState("");
   const [ip, setIp] = useState("");
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [history, setHistory] = useState([]);
   const [selectedHistory, setSelectedHistory] = useState([]);
 
-  const fetchMyIP = async () => {
-    try {
-      const res = await axios.get("https://ipinfo.io/geo");
-      setData(res.data);
-      setError("");
-    } catch (err) {
-      setError("Failed to fetch IP data.");
-    }
-  };
-
+  // Load username and IP on mount
   useEffect(() => {
+    const storedName = localStorage.getItem("username");
+    const token = localStorage.getItem("token");
+
+    if (!storedName || !token) return; // Do nothing if not logged in
+
+    setName(storedName);
+
+    const fetchMyIP = async () => {
+      try {
+        const res = await axios.get("https://ipinfo.io/geo");
+        setData(res.data);
+        setError("");
+      } catch (err) {
+        setError("Failed to fetch IP data.");
+      }
+    };
     fetchMyIP();
   }, []);
 
@@ -40,7 +48,15 @@ export default function Home() {
 
   const handleClear = () => {
     setIp("");
-    fetchMyIP();
+    (async () => {
+      try {
+        const res = await axios.get("https://ipinfo.io/geo");
+        setData(res.data);
+        setError("");
+      } catch (err) {
+        setError("Failed to fetch IP data.");
+      }
+    })();
   };
 
   const handleHistoryClick = async (ipAddress) => {
@@ -54,8 +70,9 @@ export default function Home() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("username");
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    setIsLoggedIn(false); // triggers App.jsx to redirect to login
   };
 
   const deleteSelected = () => {
@@ -68,10 +85,18 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0B2E3A] font-sans p-6 text-[#EBF4F6]">
       <div className="max-w-6xl mx-auto bg-[#0F3F4F] rounded-2xl shadow-2xl p-8 space-y-8 border border-[#088395]">
-        
+        {/* Hero Section */}
+        <section className="text-center space-y-4">
+          <h1 className="text-5xl font-extrabold text-[#7AB2B2]">Track IPs Anywhere in the World</h1>
+          <p className="text-lg text-[#C0E0E3] max-w-2xl mx-auto">
+            Monitor your own IP, search any IP address, and visualize locations in real-time. Keep track of your searches with history and explore features with ease.
+          </p>
+        </section>
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <h2 className="text-4xl font-bold text-[#7AB2B2]">GeoIP Dashboard</h2>
+          <h2 className="text-4xl font-bold text-[#7AB2B2]">
+            Welcome, {name}!
+          </h2>
           <button
             onClick={handleLogout}
             className="px-6 py-2 bg-[#088395] text-white font-semibold rounded-lg hover:bg-[#FF5F00] transition shadow"
@@ -80,7 +105,7 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Search */}
+        {/* Search Section */}
         <div className="flex flex-col sm:flex-row gap-3 items-center">
           <input
             type="text"
@@ -107,7 +132,7 @@ export default function Home() {
 
         {error && <p className="text-red-400 font-medium">{error}</p>}
 
-        {/* IP Data Card */}
+        {/* IP Data */}
         {data && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 bg-[#0B2E3A] rounded-xl p-6 shadow-inner border border-[#088395]">
             <div className="flex flex-col gap-1">
@@ -122,21 +147,21 @@ export default function Home() {
               <span className="text-[#7AB2B2] font-semibold">Region</span>
               <span className="text-[#EBF4F6] font-medium">{data.region}</span>
             </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-[#7AB2B2] font-semibold">Country</span>
-                <span className="text-[#EBF4F6] font-medium flex gap-2 items-center">
-                  {data.country && (
-                    <img
-                      src={`https://flagcdn.com/w40/${data.country.toLowerCase()}.png`}
-                      alt={data.country}
-                      width="24"
-                      height="18"
-                      className="rounded-sm"
-                    />
-                  )}
-                  {data.country || "N/A"}
-                </span>
-              </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[#7AB2B2] font-semibold">Country</span>
+              <span className="text-[#EBF4F6] font-medium flex gap-2 items-center">
+                {data.country && (
+                  <img
+                    src={`https://flagcdn.com/w40/${data.country.toLowerCase()}.png`}
+                    alt={data.country}
+                    width="24"
+                    height="18"
+                    className="rounded-sm"
+                  />
+                )}
+                {data.country || "N/A"}
+              </span>
+            </div>
             <div className="flex flex-col gap-1 col-span-full">
               <span className="text-[#7AB2B2] font-semibold">Location</span>
               <span className="text-[#EBF4F6] font-medium">{data.loc || "N/A"}</span>
